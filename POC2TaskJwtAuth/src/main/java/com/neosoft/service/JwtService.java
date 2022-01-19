@@ -1,10 +1,14 @@
 package com.neosoft.service;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -30,6 +34,7 @@ public class JwtService implements UserDetailsService{
 		String userName=jwtRequest.getUserName();
 		String userPassword=jwtRequest.getUserPassword();
 		authenticate(userName,userPassword);
+		final UserDetails userDetails= loadUserByUsername(userName);
 		return null;
 	}
 	
@@ -40,10 +45,23 @@ public class JwtService implements UserDetailsService{
 		
 		User user=userDao.findById(username).get();
 		if (user!=null) {
-			return
+			return new org.springframework.security.core.userdetails.User(
+					user.getUserName(),
+					user.getUserPassword(),
+					getAuthorities(user)
+					);
 		}else {
-			
+			throw new UsernameNotFoundException("Username not valid");
 		}
+	}
+	
+	private Set getAuthorities(User user) {
+		Set authorities=new HashSet();
+		user.getRole().forEach(role->{
+			authorities.add(new SimpleGrantedAuthority("ROLE_"+role.getRoleName()));
+		});
+		
+		return authorities;
 	}
 	
 	private void authenticate(String userName,String userPassword) throws Exception {
