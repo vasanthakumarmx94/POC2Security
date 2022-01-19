@@ -35,7 +35,12 @@ public class JwtService implements UserDetailsService{
 		String userPassword=jwtRequest.getUserPassword();
 		authenticate(userName,userPassword);
 		final UserDetails userDetails= loadUserByUsername(userName);
-		return null;
+		String newGeneratedToken= jwtutil.generateToken(userDetails);
+		
+		User user= userDao.findById(userName).get();
+		
+		return new JwtResponse(user, newGeneratedToken);
+		
 	}
 	
 	

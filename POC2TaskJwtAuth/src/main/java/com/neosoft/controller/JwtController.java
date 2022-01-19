@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.neosoft.entity.JwtRequest;
+import com.neosoft.entity.JwtResponse;
 import com.neosoft.service.JwtService;
 
 @RestController
@@ -17,7 +18,8 @@ public class JwtController {
 	private JwtService jwtService;
 	
 	@PostMapping("/authenticate")
-	public void createJwtToken(@RequestBody JwtRequest jwtrequest) {
+	public JwtResponse createJwtToken(@RequestBody JwtRequest jwtrequest) throws Exception {
 		
+		return jwtService.createJwtToken(jwtrequest);
 	}
 }
