@@ -40,7 +40,9 @@ public class Project {
 	private int duration;
 	
 	
-
-	
+//	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+//    @JoinColumn(name = "student_id", nullable = false)
+//    private Student student;
+//	
 	
 }

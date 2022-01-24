@@ -45,18 +45,37 @@ public class StudentController {
 		}).orElseThrow(() -> new ResourceNotFoundException("Project", "projectid",projId ));
 	}
 	
+	
+
+//  http://localhost:8080/project
 	@PostMapping("/project")
-	public Project createProject(@Valid @RequestBody Project project) {
+	public Project createproject(@Valid @RequestBody Project project){
 		return projectRepository.save(project);
 	}
 	
-	//  http://localhost:8080/posts/1
+	
+////  http://localhost:8080/3/student
+//	@PostMapping("/student")
+//	public Student createstudent(@Valid @RequestBody Student student){
+//		return studentRepository.save(student);
+//	}
+//	
+////  http://localhost:8080/3/project
+//	@PostMapping("/student/{studentId}/project")
+//	public Project createProject(@PathVariable Long studentId, @Valid @RequestBody Project project) {
+//		return studentRepository.findById(studentId).map(student->{
+//			project.setStudent(student);
+//			return projectRepository.save(project);
+//		}).orElseThrow(() -> new ResourceNotFoundException("Student", "StudentId",studentId ));
+//	}
+	
+	//  http://localhost:8080/project/1
 	@PutMapping("/project/{projId}")
 	public Project updateProject(@PathVariable Long projId, @Valid @RequestBody Project projReq) {
 	return projectRepository.findById(projId).map(project -> {
 		project.setDuration(projReq.getDuration());
 		project.setProjname(projReq.getProjname());
-		
+		//project.setStudent(projReq.getStudent());
 		return projectRepository.save(project);
 	}).orElseThrow(() -> new ResourceNotFoundException("Project", "ProjectId", projId));
 	}
@@ -66,7 +85,13 @@ public class StudentController {
 	public Optional<Student> getStudentbyid(@PathVariable Long id) {
 		return studentRepository.findById(id);
 	}
+	// http://localhost:8080/projects
+		@GetMapping("/projects")
+		public List<Project> getAllprojects() {
+			return projectRepository.findAll();
+		}
 
+		
 	// http://localhost:8080/employee/1
 	@DeleteMapping("/students/{id}")
 	public void deleteStudentbyid(@PathVariable Long id) {

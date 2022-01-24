@@ -37,8 +37,12 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 			http.httpBasic()
 			.and()
 			.authorizeRequests()
+			
 			.antMatchers(HttpMethod.POST,"/Project/{projId}/students").hasAnyRole("ADMIN","USER")
 			.antMatchers(HttpMethod.POST,"/project").hasAnyRole("ADMIN","USER")
+			
+//			.antMatchers(HttpMethod.POST,"/student/{studentId}/project").hasAnyRole("ADMIN","USER")
+//			.antMatchers(HttpMethod.POST,"/student").hasAnyRole("ADMIN","USER")
 			.antMatchers(HttpMethod.POST,"/**").hasAnyRole("ADMIN") //for all end points with post 
 			.antMatchers(HttpMethod.GET,"/**").hasAnyRole("ADMIN")
 			.antMatchers(HttpMethod.PUT,"/project/**").hasAnyRole("ADMIN")

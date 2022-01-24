@@ -29,9 +29,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		.authorizedGrantTypes("password").resourceIds("resource");
 		
 		
-	
-				
-				
 				
 	}
 
